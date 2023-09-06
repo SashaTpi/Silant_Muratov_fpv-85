@@ -22,12 +22,6 @@ class HomeView(TemplateView):
             return redirect('car_search_list')
 
 
-class SearchCarView(ListView): 
-    model = Mashins
-    template_name = 'backend/car/car_search.html'
-    queryset = Mashins.objects.all()
-
-
 class ListCarView(LoginRequiredMixin, ListView): 
     model = Mashins,
     template_name = 'backend/car/car_list.html'
@@ -95,6 +89,12 @@ class ListReclamationView(LoginRequiredMixin, ListView):
                     yield Reclamation.objects.filter(mashins_c=i)
         else:
             yield Reclamation.objects.all()
+
+
+class SearchCarView(ListView): 
+    model = Mashins
+    template_name = 'backend/car/car_search.html'
+    queryset = Mashins.objects.all()
 
 
 class DetailCarView(LoginRequiredMixin, DetailView):
@@ -238,6 +238,22 @@ class CarListRepSerView(LoginRequiredMixin, ListView):
         return context
 
 
+class DescriptionRepSerView(TemplateView):
+    template_name = 'backend/modal_description.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        repser = TO.objects.get(pk=self.kwargs["pk"])
+        atribute = context['atribute']
+        if atribute == 'type':
+            context['atribute'] = repser.vid_TO
+            context['description'] = repser.vid_TO.description
+        elif atribute == 'service_TO':
+            context['atribute'] = repser.service_TO
+            context['description'] = repser.service_TO.description
+        return context
+
+
 class CreateReclamationView(LoginRequiredMixin, CreateView):
     permission_required = 'backend.add_reclamation'
     model = Reclamation
@@ -278,22 +294,6 @@ class CarListReclamationView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["car"] = Mashins.objects.get(pk=self.kwargs["pk"])
-        return context
-
-
-class DescriptionRepSerView(TemplateView):
-    template_name = 'backend/modal_description.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        repser = TO.objects.get(pk=self.kwargs["pk"])
-        atribute = context['atribute']
-        if atribute == 'type':
-            context['atribute'] = repser.vid_TO
-            context['description'] = repser.vid_TO.description
-        elif atribute == 'service_TO':
-            context['atribute'] = repser.service_TO
-            context['description'] = repser.service_TO.description
         return context
 
 
