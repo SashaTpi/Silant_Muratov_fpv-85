@@ -3,20 +3,13 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect, get_object_or_404 # render,
-from rest_framework import generics #, request
+from django.shortcuts import redirect, get_object_or_404 
+from rest_framework import generics 
 from django.urls import reverse_lazy
 from rest_framework.permissions import IsAuthenticated
-# import users
 from .models import *
 from .forms import *
 from api.serializers import *
-# from django.contrib.auth.mixins import PermissionRequiredMixin
-# from django.http import HttpResponse
-# from django.core.exceptions import PermissionDenied
-# from django.core.paginator import Paginator
-# from django.db.models import Q
-
 
 
 class HomeView(TemplateView): 
@@ -47,8 +40,8 @@ class ListCarView(LoginRequiredMixin, ListView):
                 car = Mashins.objects.filter(client=clients)
                 return car
             except:
-                servic = ServiceComp.objects.get(name_id=user)
-                car = Mashins.objects.filter(service_company=servic)
+                servis = ServiceComp.objects.get(name_id=user)
+                car = Mashins.objects.filter(service_company=servis)
                 return car
         else:
             return Mashins.objects.all()
@@ -71,8 +64,8 @@ class ListRepSerView(LoginRequiredMixin, ListView):
                 for m in mashins:
                     yield TO.objects.filter(mashins_TO=m)
             except:
-                servic = ServiceComp.objects.get(name_id=user.pk)
-                mashins = Mashins.objects.filter(service_company=servic)
+                servis = ServiceComp.objects.get(name_id=user.pk)
+                mashins = Mashins.objects.filter(service_company=servis)
                 for i in list(mashins):
                     yield TO.objects.filter(mashins_TO=i)
         else:
@@ -96,8 +89,8 @@ class ListReclamationView(LoginRequiredMixin, ListView):
                 for m in mashins:
                     yield Reclamation.objects.filter(mashins_c=m)
             except:
-                servic = ServiceComp.objects.get(name_id=user)
-                mashins = Mashins.objects.filter(service_company=servic)
+                servis = ServiceComp.objects.get(name_id=user)
+                mashins = Mashins.objects.filter(service_company=servis)
                 for i in list(mashins):
                     yield Reclamation.objects.filter(mashins_c=i)
         else:

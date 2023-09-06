@@ -562,7 +562,7 @@ table {
 table th {
   position: relative;
   text-align: center;
-  font-size: 1rem;
+  font-size: 2rem;
   color: #163E6C;
   padding: 5px;
   padding-right: 30px;
@@ -575,7 +575,7 @@ table th {
 
 table td {
   text-align: center;
-  font-size: 1rem;
+  font-size: 2rem;
   color: #333333;
   padding: 15px 5px;
   border: 1px solid #AFAFAF;
